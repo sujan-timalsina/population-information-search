@@ -5,12 +5,12 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 
 const props = defineProps({
     'countries': Array,
     'highestCoutriesByPopulation': Array,
-    'ageGroupstats': Array,
+    'ageGroupStats': Array,
 })
 
 const selectedCities = ref([]);
@@ -26,16 +26,19 @@ const form = useForm({
 const selectCityList = () => {
     const country = props.countries.filter(country => country.id === form.country_id);
     selectedCities.value = country[0].cities;
-    form.post(route('home.post'))
+    submit();
 }
 
+watchEffect(() => {
+    if (form.country_id) {
+        form.city_id = ''; // Reset city_id whenever country_id changes
+        form.gender_population = '';
+    }
+});
 
 const submit = () => {
     form.post(route('home.post'), {
-        onFinish: () => {
-            // form.reset('country_id')
-            // form.reset('city')
-        },
+        only: ['ageGroupStats']
     });
 };
 
@@ -78,13 +81,13 @@ const submit = () => {
             </form>
         </div>
 
-        <table class="divide-y divide-gray-200 mx-auto my-8 text-2xl">
+        <table class="divide-y divide-gray-200 mx-auto my-8">
             <thead class="bg-gray-50">
-                <tr v-for="ageGroup in ageGroupstats">
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <tr v-for="ageGroup in ageGroupStats">
+                    <th scope="col" class="px-6 py-3 text-left font-medium text-white uppercase tracking-wider bg-gray-600">
                         {{ ageGroup.age_group }}
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class="px-6 py-3 text-left font-medium text-gray-500 uppercase tracking-wider">
                         {{ ageGroup.total_population }}
                     </th>
                 </tr>
@@ -112,7 +115,7 @@ const submit = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="({ id, country_name, total_population }, index) in props.highestCoutriesByPopulation" :key="id">
+                <tr v-for="({ country_name, total_population }, index) in props.highestCoutriesByPopulation" :key="index">
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ index + 1 }}
                     </td>

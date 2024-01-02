@@ -32,15 +32,18 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('home.index')" :active="route().current('home.index')">
                                     Home
                                 </NavLink>
-                                <NavLink :href="route('country.index')" :active="route().current('country.index')">
-                                    Country
-                                </NavLink>
-                                <NavLink :href="route('city.index')" :active="route().current('city.index')">
-                                    City
-                                </NavLink>
-                                <NavLink :href="route('population.index')" :active="route().current('population.index')">
-                                    Population
-                                </NavLink>
+                                <template v-if="$page.props.auth.user !== null">
+                                    <NavLink :href="route('country.index')" :active="route().current('country.index')">
+                                        Country
+                                    </NavLink>
+                                    <NavLink :href="route('city.index')" :active="route().current('city.index')">
+                                        City
+                                    </NavLink>
+                                    <NavLink :href="route('population.index')"
+                                        :active="route().current('population.index')">
+                                        Population
+                                    </NavLink>
+                                </template>
                             </div>
                         </div>
                         <!-- Check User is authenticated or not  -->
