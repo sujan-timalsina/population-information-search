@@ -33,6 +33,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('country.index')" :active="route().current('country.index')">
                                     Country
                                 </NavLink>
+                                <NavLink :href="route('city.index')" :active="route().current('city.index')">
+                                    City
+                                </NavLink>
                             </div>
                         </div>
                         <!-- Check User is authenticated or not  -->
