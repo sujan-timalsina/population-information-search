@@ -36,6 +36,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('city.index')" :active="route().current('city.index')">
                                     City
                                 </NavLink>
+                                <NavLink :href="route('population.index')" :active="route().current('population.index')">
+                                    Population
+                                </NavLink>
                             </div>
                         </div>
                         <!-- Check User is authenticated or not  -->

@@ -46,6 +46,10 @@ Route::middleware('auth')->group(function () {
     //City Routes
     Route::get("/city", [AdminController::class, 'showCityPage'])->name('city.index');
     Route::post("/city", [AdminController::class, 'storeCity'])->name('city.store');
+
+    //City Routes
+    Route::get("/population", [AdminController::class, 'showPopulationPage'])->name('population.index');
+    Route::post("/population", [AdminController::class, 'storePopulation'])->name('population.store');
 });
 
 require __DIR__ . '/auth.php';

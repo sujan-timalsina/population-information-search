@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use Inertia\Inertia;
 use App\Models\Country;
+use App\Models\Population;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -42,7 +43,7 @@ class AdminController extends Controller
             'city' => 'required|min:2',
         ]);
 
-        $newCountry = City::create([
+        $newCity = City::create([
             'country_id' => $request->country_id,
             'city' => $request->city,
         ]);
@@ -52,11 +53,30 @@ class AdminController extends Controller
 
     public function showPopulationPage()
     {
-        //
+        $countries = Country::with('cities')->get();
+        return Inertia::render('Population/index', [
+            'countries' => $countries,
+        ]);
     }
 
-    public function storePopulation()
+    public function storePopulation(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'country_id' => 'required',
+            'city_id' => 'required',
+            'age_group' => 'required',
+            'male_population' => 'required',
+            'female_population' => 'required',
+        ]);
+
+        $newPopulation = Population::create([
+            'country_id' => $request->country_id,
+            'city_id' => $request->city_id,
+            'age_group' => $request->age_group,
+            'male_population' => $request->male_population,
+            'female_population' => $request->female_population,
+        ]);
+
+        return redirect()->route('population.index')->with('message', 'Population recorded successfully!');
     }
 }

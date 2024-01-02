@@ -4,3 +4,5 @@
 
 1. Laravel
 2. Database: MySQL
+3. Inertia.js
+4. Vue
