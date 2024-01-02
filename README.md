@@ -1,6 +1,6 @@
-#Population Information Search
+# Population Information Search
 
-##Tools Used:
+## Tools Used:
 
 1. Laravel
 2. Database: MySQL
